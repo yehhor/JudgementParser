@@ -19,14 +19,9 @@ public class DocumentUtils {
 
     public static Judge getJudge(Integer number) {
         Document doc;
-        try {
-            doc = getDocument(getCorrectNumber(number));
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
         Judge judge = new Judge();
         try {
+            doc = getDocument(getCorrectNumber(number));
             judge.setName(getName(doc));
             judge.setAdress(getAdress(doc));
             judge.setEmail(getEmail(doc));
@@ -37,7 +32,7 @@ public class DocumentUtils {
             judge.setSchedule_FR(sched[1]);
             judge.setSchedule_MON_TH(sched[0]);
         } catch (Exception e) {
-            /*NOPE*/
+            return null;
         }
         if (isEmpty(judge))
             return null;
@@ -103,14 +98,14 @@ public class DocumentUtils {
         return element.text();
     }
 
-    private static String getCorrectNumber(Integer number) {
+    public static String getCorrectNumber(Integer number) {
         String textNumber = String.valueOf(number);
         while (textNumber.length() < 4)
             textNumber = 0 + textNumber;
         return textNumber;
     }
 
-    public static String[] getSchedule(Document doc) {
+    private static String[] getSchedule(Document doc) {
         String[] schedule = new String[3];
         Elements elements_MO_THU = doc.select("table.menur2").select("tr").select("td.b2");
         schedule[0] = elements_MO_THU.get(0).text();
@@ -120,7 +115,7 @@ public class DocumentUtils {
     }
 
 
-    public static Document getDocument(String page) throws IOException {
+    private static Document getDocument(String page) throws IOException {
         String url = String.format(URL_FORMAT, page);
         Document doc = null;
         try {

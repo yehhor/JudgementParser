@@ -43,7 +43,7 @@ public class DataAccesObject {
             BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(new File(bundle.getString("db.init")))));
             String curLine;
             while ((curLine = reader.readLine()) != null){
-                builder.append(curLine).append("\n");
+                builder.append(curLine).append("\r\n");
             }
         }catch (IOException e)
         {
@@ -57,18 +57,17 @@ public class DataAccesObject {
     private void flushDB()
     {
         try {
-            Class.forName("org.postgresql.Driver");
-            //Загружаем драйвер
+            Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection(URL, username, password);
-            //соединяемся
             if (con == null) System.exit(0);
             Statement st = con.createStatement();
+            st.execute("DROP TABLE IF EXISTS `judges`");
             st.execute(createStringSql());
             if (st != null) st.close();
             if (con != null) con.close();
         } catch (Exception e) {
             System.out.println("FlushDB EXCEPTION");
-            System.out.println(e.getMessage());
+            e.printStackTrace();
             System.out.println();
         }
     }
@@ -76,13 +75,13 @@ public class DataAccesObject {
 
     public void save(Judge judge) {
         try {
-            Class.forName("org.postgresql.Driver");
+            Class.forName("com.mysql.jdbc.Driver");
             //Загружаем драйвер
             con = DriverManager.getConnection(URL, username, password);
             //соединяемся
             if (con == null) System.exit(0);
             Statement st = con.createStatement();
-            String sql = String.format("INSERT INTO judgements (name, email, adress, phone, url, schedule_MON_TH," +
+            String sql = String.format("INSERT INTO judges (name, email, adress, phone, url, schedule_MON_TH," +
                     " schedule_FR, schedule_BREAK) VALUES " +
                             "  ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')", judge.getName(), judge.getEmail(), judge.getAdress(),
                     judge.getPhone(), judge.getUrl(), judge.getSchedule_MON_TH(), judge.getSchedule_FR(), judge.getSchedule_BREAK());
@@ -91,7 +90,7 @@ public class DataAccesObject {
             if (con != null) con.close();
         } catch (Exception e) {
             System.out.println("JDBC EXCEPTION");
-            System.out.println(e.getMessage());
+            e.printStackTrace();
             System.out.println(judge.getUrl());
             System.out.println();
         }
