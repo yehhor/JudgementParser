@@ -14,6 +14,36 @@ public class Judge {
 
     private String url;
 
+    private String schedule_MON_TH;
+
+    private String schedule_FR;
+
+    private String schedule_BREAK;
+
+    public String getSchedule_MON_TH() {
+        return schedule_MON_TH;
+    }
+
+    public void setSchedule_MON_TH(String schedule_MON_TH) {
+        this.schedule_MON_TH = schedule_MON_TH;
+    }
+
+    public String getSchedule_FR() {
+        return schedule_FR;
+    }
+
+    public void setSchedule_FR(String schedule_FR) {
+        this.schedule_FR = schedule_FR;
+    }
+
+    public String getSchedule_BREAK() {
+        return schedule_BREAK;
+    }
+
+    public void setSchedule_BREAK(String schedule_BREAK) {
+        this.schedule_BREAK = schedule_BREAK;
+    }
+
     public String getName() {
         return name;
     }
@@ -32,7 +62,7 @@ public class Judge {
     }
 
     public String getPhone() {
-        return phone;
+        return phone.replace('\'', '`');
     }
 
     public void setPhone(String phone) {
