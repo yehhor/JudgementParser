@@ -36,15 +36,19 @@ public class DocumentUtils {
             judge.setSchedule_BREAK(sched[2]);
             judge.setSchedule_FR(sched[1]);
             judge.setSchedule_MON_TH(sched[0]);
-        }catch (Exception e)
-        {
+        } catch (Exception e) {
             /*NOPE*/
         }
-        if (judge.getAdress() == null && judge.getEmail() == null && judge.getUrl() == null)
+        if (isEmpty(judge))
             return null;
         return judge;
     }
 
+    private static boolean isEmpty(Judge judge) {
+
+        return (judge.getName().equals("noName") && judge.getAdress().isEmpty()
+                && judge.getEmail().isEmpty() && judge.getUrl().isEmpty());
+    }
 
     private static String getPhone(Document doc) {
         Elements elements = doc.getElementsByClass("menur1");
@@ -87,7 +91,7 @@ public class DocumentUtils {
         if (elements.isEmpty()) {
             elements = doc.getElementsByTag("td").select("td#selected").select("td.b1");
         }
-        return elements.isEmpty() || !elements.first().text().contains("суд") ? "court has no name" : elements.first().text();
+        return elements.isEmpty() || !elements.first().text().contains("суд") ? "noName" : elements.first().text();
     }
 
     private static String getAdress(Document doc) {
