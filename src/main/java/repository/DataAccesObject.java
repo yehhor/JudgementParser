@@ -59,7 +59,7 @@ public class DataAccesObject {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection(URL, username, password);
-            if (con == null) System.exit(0);
+            if (con == null) throw new Exception("No DB CONNECTION");
             Statement st = con.createStatement();
             st.execute("DROP TABLE IF EXISTS `judges`");
             st.execute(createStringSql());
@@ -76,10 +76,8 @@ public class DataAccesObject {
     public void save(Judge judge) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            //Загружаем драйвер
             con = DriverManager.getConnection(URL, username, password);
-            //соединяемся
-            if (con == null) System.exit(0);
+            if (con == null) throw new Exception("No DB CONNECTION");
             Statement st = con.createStatement();
             String sql = String.format("INSERT INTO judges (name, email, adress, phone, url, schedule_MON_TH," +
                     " schedule_FR, schedule_BREAK) VALUES " +
